@@ -14,18 +14,17 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = 'g9^60bvp$*i#7sc%p1^)+80!h)kk8qkm(@epi9$_*&mv+n4ii!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False   # IMPORTANT for Render
+# For local testing you can set DEBUG = True
+DEBUG = False
 
-# Render domain
+# Render / allowed domains
 ALLOWED_HOSTS = [
     'all-india-tour.onrender.com',
+    'localhost',
     '127.0.0.1',
-    'localhost'
 ]
 
-# -----------------------------------
-# INSTALLED APPS
-# -----------------------------------
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,13 +37,10 @@ INSTALLED_APPS = [
     'ckeditor',
 ]
 
-# -----------------------------------
-# MIDDLEWARE
-# -----------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    # WhiteNoise for static files (MUST BE JUST BELOW SecurityMiddleware)
+    # WhiteNoise for static files (must be right after SecurityMiddleware)
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -57,13 +53,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'travel.urls'
 
-# -----------------------------------
-# TEMPLATES
-# -----------------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [TEMPLATE_DIR],  # your global templates directory (optional)
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,9 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'travel.wsgi.application'
 
-# -----------------------------------
-# DATABASE
-# -----------------------------------
+# Database – using SQLite for now (OK on Render for demo/small project)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -88,9 +79,7 @@ DATABASES = {
     }
 }
 
-# -----------------------------------
-# PASSWORD VALIDATION
-# -----------------------------------
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -106,23 +95,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# -----------------------------------
-# INTERNATIONALIZATION
-# -----------------------------------
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# -----------------------------------
-# STATIC & MEDIA (Render Deployment)
-# -----------------------------------
+# Static & Media files (Render friendly)
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # where collectstatic will put files
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# WhiteNoise setting (must match Django 3.x syntax)
+# WhiteNoise static file storage
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
